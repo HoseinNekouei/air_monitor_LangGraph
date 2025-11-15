@@ -63,7 +63,29 @@ def validate_data(state):
 
 
 #---------------------------------------3. Analyze Node ----------------------------
+def analyze_node(state):
+    valid = state.get('valid')
 
+    if valid is None:
+        return {'advice': 'NO VALID DATA AVAILABLE !'}
+
+    temperature = valid["temperature"]
+    humidity = valid["humidity"]
+    gas = valid['gas']
+
+    if temperature > 30 and humidity < 40:
+        msg = "Air is hot and dry. Consider improving ventilation."
+    
+    elif temperature < 15:
+        msg = "Air is too cold."
+    
+    elif gas > 400:
+        msg= "The air is polluted, open the window."
+
+    else:
+        msg = "Conditions are normal."
+
+    return {"advice": msg}    
 
 
     
