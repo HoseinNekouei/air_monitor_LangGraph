@@ -1,7 +1,17 @@
 import httpx
-import openai
+from openai import OpenAI
+from dotenv import load_dotenv
 from datetime import datetime
 
+import os
+
+load_dotenv()
+
+# Initialize OpenAI client with .env variables
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url=os.getenv("OPENAI_BASE_URL")
+)
 
 #-------------------- 1. Fetch Node---------------------------------------------
 async def fetch_data_node(state):
@@ -66,33 +76,41 @@ def validate_node(state):
 
 #------------------------------------ 3. Advice Node --------------------------------
 def advice_node(state):
+
     if not state.get('valid'):
         return {'advice': 'NO VALID DATA AVAILABLE !'}
     
     data = state['valid']
     
     prompt = f"""
-    You are an air quality and temperature advisor.
-    Given the following sensor readings:
-    - Temperature: {data['temperature']} °C
-    - Humidity: {data['humidity']} %
-    - Gas level: {data['gas']}
-    Provide clear advice in natural language for actions to improve comfort and safety.
+    You are an environmental monitoring assistant.
+
+    Sensor data:
+    temperature={data['temperature']} °C
+    humidity={data['humidity']} %
+    gas={data['gas']} ppm
+
+    Return ONLY:
+    A single short sentence (max 20 words) giving practical advice.
+    No lists, no formatting, no headings, no markdown, no explanations.
+    If data is normal, still give one simple recommendation.
+    Output must be plain text only.
     """    
 
     try:
-        response= openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+        response= client.chat.completions.create(
+            model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "You are an air quality and temperature advisor."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens= 60,
+            max_tokens= 100,
             n= 1,
             stop= None,
             temperature= 0.7,
         )
-        advice= response.choices[0].message['content'].strip()
+
+        advice= response.choices[0].message.content
         state['advice']= advice
 
     except Exception as e:
