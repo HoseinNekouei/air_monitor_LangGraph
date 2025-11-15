@@ -1,6 +1,8 @@
-from typing import TypedDict, Optional, Dict
+from typing import TypedDict, Optional, Dict, List
 
-class SensorState(TypedDict):
-    raw: Optional[Dict]             # raw json data from the sensor
-    analysed: Optional[str]         # text analysis output
+class SensorState(TypedDict, total= False):
+    raw: Optional[Dict]
+    valid: Optional[Dict]
+    advice: Optional[str]
+    log: list[str]
 
