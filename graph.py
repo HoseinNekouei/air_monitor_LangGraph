@@ -1,5 +1,5 @@
 from langgraph.graph import StateGraph, END
-from state import SensorState
+from state import State
 from nodes import (
     fetch_data_node, 
     validate_node, 
@@ -9,7 +9,7 @@ from nodes import (
 
 
 # Build Graph
-graph = StateGraph(SensorState)
+graph = StateGraph(State)
 
 graph.add_node('fetch',fetch_data_node)
 graph.add_node('validate', validate_node)
@@ -20,8 +20,11 @@ graph.add_node('logger', logger_node)
 # fetch -> validate -> analyze -> log -> END
 graph.add_edge('fetch', 'validate')
 graph.add_edge('validate', 'analyze')
-graph.add_edge('validate', 'logger')
+graph.add_edge('analyze', 'logger')
 graph.add_edge('logger', END)
+
+# set entry point
+graph.set_entry_point('fetch')
 
 app= graph.compile()
 
