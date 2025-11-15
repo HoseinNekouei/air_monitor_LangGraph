@@ -1,4 +1,5 @@
 import httpx
+import openai
 from datetime import datetime
 
 
@@ -35,9 +36,6 @@ def validate_node(state):
         'gas': (float, int),
     }
 
-    import pdb
-    pdb.set_trace()
-    
     # Validate each required field
     for field, expected_types in required_fields.items():
         if field not in raw:
@@ -66,32 +64,42 @@ def validate_node(state):
     return {'valid': raw}
 
 
-#---------------------------------------3. Analyze Node ----------------------------
-def analyze_node(state):
-    valid = state.get('valid')
-
-    if valid is None:
+#------------------------------------ 3. Advice Node --------------------------------
+def advice_node(state):
+    if not state.get('valid'):
         return {'advice': 'NO VALID DATA AVAILABLE !'}
-
-    temperature = valid["temperature"]
-    humidity = valid["humidity"]
-    gas = valid['gas']
-
-    if temperature > 30 and humidity < 40:
-        msg = "Air is hot and dry. Consider improving ventilation."
     
-    elif temperature < 15:
-        msg = "Air is too cold."
+    data = state['valid']
     
-    elif gas > 400:
-        msg= "The air is polluted, open the window."
+    prompt = f"""
+    You are an air quality and temperature advisor.
+    Given the following sensor readings:
+    - Temperature: {data['temperature']} °C
+    - Humidity: {data['humidity']} %
+    - Gas level: {data['gas']}
+    Provide clear advice in natural language for actions to improve comfort and safety.
+    """    
 
-    else:
-        msg = "Conditions are normal."
+    try:
+        response= openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens= 60,
+            n= 1,
+            stop= None,
+            temperature= 0.7,
+        )
+        advice= response.choices[0].message['content'].strip()
+        state['advice']= advice
 
-    return {"advice": msg}    
-
-
+    except Exception as e:
+        return {'advice': f"Error generating advice: {str(e)}"}
+    
+    return {'advice': state['advice']}
+    
 #------------------------------------ 4. Logger Node --------------------------------
 def logger_node(state):
 
