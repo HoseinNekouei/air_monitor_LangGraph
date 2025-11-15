@@ -18,23 +18,26 @@ async def fetch_data_node(state):
 
 #----------------------2. Validation Node ---------------------------------------
 def validate_node(state):
-    raw = state.get("raw", {})
-
-    # check for error in raw data
-    if 'error' in raw:
-        return {'valid': None} # propagate error
+    raw = state.get("raw")
     
-    # check for raw data is empty or not dict
+    # Check for error or None
+    if raw is None or isinstance(raw, dict) and 'error' in raw:
+        return {'valid': None}
+    
+    # Check if raw data is empty or not dict
     if not isinstance(raw, dict) or not raw:
-        return{'valid': None}
+        return {'valid': None}
     
-    # Define required fields and their validation rules
-    required_fields= {
-        'tempreture': (float, int),
+    # Define required fields and their types
+    required_fields = {
+        'temperature': (float, int),
         'humidity': (float, int),
         'gas': (float, int),
     }
 
+    import pdb
+    pdb.set_trace()
+    
     # Validate each required field
     for field, expected_types in required_fields.items():
         if field not in raw:
@@ -47,11 +50,11 @@ def validate_node(state):
             return {'valid': None}
         
         # Check if value is not NaN
-        if isinstance(value, float) and value != value:  # NaN check
+        if isinstance(value, float) and value != value:
             return {'valid': None}
     
-    # Add range validation for sensor values
-    if not (0 <= raw['temperature'] <= 100):  # Adjust range as needed
+    # Range validation for sensor values
+    if not (-50 <= raw['temperature'] <= 100):
         return {'valid': None}
     
     if not (0 <= raw['humidity'] <= 100):
@@ -88,6 +91,7 @@ def analyze_node(state):
 
     return {"advice": msg}    
 
+
 #------------------------------------ 4. Logger Node --------------------------------
 def logger_node(state):
 
@@ -99,6 +103,5 @@ def logger_node(state):
     return {'logs': logs}
 
 
-    
 
-    
+

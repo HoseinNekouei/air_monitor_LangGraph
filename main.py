@@ -9,9 +9,13 @@ async def main():
         'advice': None,
         'logs': []
     }
-    
+
     final_state= await app.ainvoke(initial_state)
-    print("Final State:", final_state)
+
+    # Access final state components
+    print("Final Advice:", final_state.get('advice'))
+    print("Logs:", final_state.get('logs'))
+
 
 
 if __name__ == "__main__":
