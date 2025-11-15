@@ -1,4 +1,5 @@
 import httpx
+from datetime import datetime
 
 
 #-------------------- 1. Fetch Node---------------------------------------------
@@ -86,6 +87,16 @@ def analyze_node(state):
         msg = "Conditions are normal."
 
     return {"advice": msg}    
+
+#------------------------------------ 4. Logger Node --------------------------------
+def logger_node(state):
+
+    log_entry= f"{datetime.now()} | raw= {state.get('raw')} | advice= {state.get('advice')}"
+
+    logs= state.get('logs', [])
+    logs.append(log_entry)
+
+    return {'logs': logs}
 
 
     
