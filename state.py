@@ -4,5 +4,5 @@ class SensorState(TypedDict, total= False):
     raw: Optional[Dict]
     valid: Optional[Dict]
     advice: Optional[str]
-    log: list[str]
+    logs: list[str]
 
