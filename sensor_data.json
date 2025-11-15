@@ -1,0 +1,32 @@
+[
+  {
+    "timestamp": "2025-01-01T10:00:00",
+    "temperature": 24.5,
+    "humidity": 58.0,
+    "gas": 350
+  },
+  {
+    "timestamp": "2025-01-01T10:05:00",
+    "temperature": 24.7,
+    "humidity": 57.5,
+    "gas": 360
+  },
+  {
+    "timestamp": "2025-01-01T10:10:00",
+    "temperature": 24.8,
+    "humidity": 58.2,
+    "gas": 400
+  },
+  {
+    "timestamp": "2025-01-01T10:15:00",
+    "temperature": 25.0,
+    "humidity": 59.0,
+    "gas": 420
+  },
+  {
+    "timestamp": "2025-01-01T10:20:00",
+    "temperature": 25.2,
+    "humidity": 60.0,
+    "gas": 450
+  }
+]
