@@ -1,5 +1,7 @@
 import httpx
 
+
+#-------------------- 1. Fetch Node---------------------------------------------
 async def Fetch_live_data(state):
     async with httpx.AsyncClient(timeout= 3.0) as client:
         try:
@@ -11,9 +13,56 @@ async def Fetch_live_data(state):
         
         
         return {"raw": data}
+    
+
+#----------------------2. Validation Node ---------------------------------------
+def validate_data(state):
+    raw = state.get("raw", {})
+
+    # check for error in raw data
+    if 'error' in raw:
+        return {'valid': None} # propagate error
+    
+    # check for raw data is empty or not dict
+    if not isinstance(raw, dict) or not raw:
+        return{'valid': None}
+    
+    # Define required fields and their validation rules
+    required_fields= {
+        'tempreture': (float, int),
+        'humidity': (float, int),
+        'gas': (float, int),
+    }
+
+    # Validate each required field
+    for field, expected_types in required_fields.items():
+        if field not in raw:
+            return {'valid': None}
+        
+        value = raw[field]
+        
+        # Check if value is of correct type
+        if not isinstance(value, expected_types):
+            return {'valid': None}
+        
+        # Check if value is not NaN
+        if isinstance(value, float) and value != value:  # NaN check
+            return {'valid': None}
+    
+    # Add range validation for sensor values
+    if not (0 <= raw['temperature'] <= 100):  # Adjust range as needed
+        return {'valid': None}
+    
+    if not (0 <= raw['humidity'] <= 100):
+        return {'valid': None}
+    
+    if raw['gas'] < 0:
+        return {'valid': None}
+    
+    return {'valid': raw}
 
 
-
+#---------------------------------------3. Analyze Node ----------------------------
 
 
 
