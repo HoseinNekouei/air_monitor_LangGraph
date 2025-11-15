@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 #-------------------- 1. Fetch Node---------------------------------------------
-async def Fetch_live_data(state):
+async def fetch_data_node(state):
     async with httpx.AsyncClient(timeout= 3.0) as client:
         try:
             response = await client.get("http://localhost:8000/sensor")
@@ -17,7 +17,7 @@ async def Fetch_live_data(state):
     
 
 #----------------------2. Validation Node ---------------------------------------
-def validate_data(state):
+def validate_node(state):
     raw = state.get("raw", {})
 
     # check for error in raw data
