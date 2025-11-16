@@ -1,8 +1,5 @@
 
-<<<<<<< HEAD
-=======
 ![LangGraph_Node](https://github.com/user-attachments/assets/ca9b183e-3971-4fc2-8174-ecd8bd72a8bf)
->>>>>>> 161a5c6a4539e1432e5bedf87250683349817f1f
 
 # Air Monitor LangGraph
 
