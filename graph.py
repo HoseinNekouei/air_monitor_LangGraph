@@ -24,6 +24,6 @@ graph.add_edge('validate', 'advice')
 graph.add_edge('advice', 'logger')
 graph.add_edge('logger', END)
 
-app= graph.compile()
+app_graph= graph.compile()
 
 
