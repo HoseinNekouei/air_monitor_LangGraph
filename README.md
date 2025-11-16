@@ -1,4 +1,8 @@
 
+<<<<<<< HEAD
+=======
+![LangGraph_Node](https://github.com/user-attachments/assets/ca9b183e-3971-4fc2-8174-ecd8bd72a8bf)
+>>>>>>> 161a5c6a4539e1432e5bedf87250683349817f1f
 
 # Air Monitor LangGraph
 
@@ -157,7 +161,3 @@ Logs: ['2025-11-15 10:30:45.123456 | raw= {...} | advice= ...']
 - **Invalid Data**: Returns `None` for valid field, logs error
 - **API Error**: Returns error message instead of advice
 - **Loop Timeout**: Breaks loop after max retries
-
-## License
-
-MIT
