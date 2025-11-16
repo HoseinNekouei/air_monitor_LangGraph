@@ -1,3 +1,6 @@
+
+![LangGraph_Node](https://github.com/user-attachments/assets/ca9b183e-3971-4fc2-8174-ecd8bd72a8bf)
+
 # Air Monitor LangGraph
 
 A real-time air quality monitoring system using LangGraph that fetches sensor data, validates it, analyzes conditions, and provides AI-powered recommendations with continuous monitoring.
@@ -155,7 +158,3 @@ Logs: ['2025-11-15 10:30:45.123456 | raw= {...} | advice= ...']
 - **Invalid Data**: Returns `None` for valid field, logs error
 - **API Error**: Returns error message instead of advice
 - **Loop Timeout**: Breaks loop after max retries
-
-## License
-
-MIT
