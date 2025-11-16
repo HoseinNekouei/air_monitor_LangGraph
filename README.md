@@ -1,5 +1,5 @@
 
-![LangGraph_Node](https://github.com/user-attachments/assets/ca9b183e-3971-4fc2-8174-ecd8bd72a8bf)
+![LangGraph Workflow](https://github.com/user-attachments/assets/185194f3-6433-41ab-8109-7a45506407b4)
 
 # Air Monitor LangGraph
 
